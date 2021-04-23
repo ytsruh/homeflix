@@ -11,42 +11,20 @@ import {
   VolumeMenuButton,
 } from "video-react";
 import { Button } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "video-react/dist/video-react.css";
 
 class ShowPlayer extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
-    this.state = {};
-  }
-
-  componentWillMount() {
-    const url = `${process.env.REACT_APP_APIURL}/api/episodes/${this.props.match.params.episode}`;
-    //Get Episode data
-    fetch(url)
-      .then((response) => {
-        if (response.status !== 200) {
-          console.log(
-            "Looks like there was a problem. Status Code: " + response.status
-          );
-          return;
-        } else {
-          return response.json();
-        }
-      })
-      .then((json) => {
-        this.setState({
-          episode: json.data,
-          show: json.data.Show.name,
-          url: `https://homeflix-media.azureedge.net/shows/${json.data.Show.name}/Season ${json.data.season}/${json.data.fileName}`,
-        });
-      })
-      .catch((err) => {
-        console.log("Fetch Error :-S", err);
-      });
+    this.state = { episode: props.location.state.episode, show: props.location.state.show };
   }
 
   render() {
+    if (!this.state.episode || !this.state.show) {
+      return <Redirect to="shows" />;
+    }
+    const url = `https://homeflix-media.azureedge.net/shows/${this.state.show.PartitionKey}/Season ${this.state.episode.season}/${this.state.episode.fileName}`;
     return (
       <div>
         <div className="my-3">
@@ -62,7 +40,7 @@ class ShowPlayer extends React.Component {
           </Button>
         </div>
 
-        <Player src={this.state.url} aspectRatio="16:9" fluid={true}>
+        <Player src={url} aspectRatio="16:9" fluid={true}>
           <LoadingSpinner />
           <BigPlayButton position="center" />
           <ControlBar>

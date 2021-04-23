@@ -34,14 +34,10 @@ class SingleShow extends React.Component {
   }
 
   componentWillMount() {
-    fetch(
-      `${process.env.REACT_APP_APIURL}/api/shows/${this.props.match.params.id}`
-    )
+    fetch(`${process.env.REACT_APP_APIURL}/shows/${this.props.match.params.id}`)
       .then((response) => {
         if (response.status !== 200) {
-          console.log(
-            "Looks like there was a problem. Status Code: " + response.status
-          );
+          console.log("Looks like there was a problem. Status Code: " + response.status);
           return;
         } else {
           return response.json();
@@ -49,7 +45,7 @@ class SingleShow extends React.Component {
       })
       .then((json) => {
         this.setState({
-          show: json.data,
+          show: json.show[0],
           episodes: json.episodes,
           seasonList: this.getSeasonList(json.episodes),
           loading: false,
@@ -73,8 +69,9 @@ class SingleShow extends React.Component {
       var episodes = this.state.episodes.map((episode) => {
         return (
           <EpisodeRow
-            key={episode.id}
-            data={episode}
+            key={episode.RowKey}
+            episode={episode}
+            show={this.state.show}
             filter={this.state.filteredSeason}
           />
         );
@@ -91,21 +88,14 @@ class SingleShow extends React.Component {
               <Row>
                 <Col md="5">
                   <div className="my-3">
-                    <img
-                      src={imageUrl}
-                      alt={this.state.show.name}
-                      className="showImageThumbnail"
-                    />
+                    <img src={imageUrl} alt={this.state.show.name} className="showImageThumbnail" />
                   </div>
                 </Col>
                 <Col md="7" />
               </Row>
               <Row>
                 <Col md="12" className="my-3">
-                  <SeasonButton
-                    seasons={this.state.seasonList}
-                    function={this.filterSeason}
-                  />
+                  <SeasonButton seasons={this.state.seasonList} function={this.filterSeason} />
                 </Col>
               </Row>
               <Row>

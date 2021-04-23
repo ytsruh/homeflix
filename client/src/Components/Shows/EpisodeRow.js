@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 class EpisodeRow extends React.Component {
   componentWillMount() {
     this.setState({
-      episode: this.props.data,
-      filter: this.props.filter
+      episode: this.props.episode,
+      show: this.props.show,
+      filter: this.props.filter,
     });
   }
 
@@ -14,7 +15,7 @@ class EpisodeRow extends React.Component {
     // Typical usage (don't forget to compare props):
     if (this.props.filter !== prevProps.filter) {
       this.setState({
-        filter: this.props.filter
+        filter: this.props.filter,
       });
     }
   }
@@ -22,10 +23,7 @@ class EpisodeRow extends React.Component {
   render() {
     let display;
     if (parseInt(this.state.filter, 16) > 0) {
-      if (
-        parseInt(this.state.episode.season, 16) !==
-        parseInt(this.state.filter, 16)
-      ) {
+      if (parseInt(this.state.episode.season, 16) !== parseInt(this.state.filter, 16)) {
         display = "d-none";
       }
     } else {
@@ -42,12 +40,10 @@ class EpisodeRow extends React.Component {
             color="primary"
             size="lg"
             tag={Link}
-            to={
-              "/shows/" +
-              this.state.episode.ShowId +
-              "/episode/" +
-              this.state.episode.id
-            }
+            to={{
+              pathname: "/shows/" + this.state.episode.ShowId + "/episode/" + this.state.episode.RowKey,
+              state: this.state,
+            }}
           >
             Play
           </Button>

@@ -20,12 +20,10 @@ class Movies extends React.Component {
   }
 
   componentWillMount() {
-    fetch(`${process.env.REACT_APP_APIURL}/api/movies/`)
+    fetch(`${process.env.REACT_APP_APIURL}/movies`)
       .then((response) => {
         if (response.status !== 200) {
-          console.log(
-            "Looks like there was a problem. Status Code: " + response.status
-          );
+          console.log("Looks like there was a problem. Status Code: " + response.status);
           return;
         } else {
           return response.json();
@@ -33,7 +31,7 @@ class Movies extends React.Component {
       })
       .then((json) => {
         this.setState({
-          movies: json.data,
+          movies: json.movies,
           loading: false,
         });
       })
@@ -48,9 +46,7 @@ class Movies extends React.Component {
     } else {
       if (this.state.movies) {
         var movies = this.state.movies.map((movie) => {
-          return (
-            <MovieList key={movie.id} data={movie} filter={this.state.filter} />
-          );
+          return <MovieList key={movie.RowKey} data={movie} filter={this.state.filter} />;
         });
       }
 
@@ -74,6 +70,7 @@ class Movies extends React.Component {
                               onChange={this.filterMovies}
                               type="text"
                               placeholder="Search..."
+                              className="bg-dark text-white border border-primary"
                             />
                           </FormGroup>
                         </Form>

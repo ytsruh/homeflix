@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Row,
-  Col,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import { Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Link } from "react-router-dom";
 
 class MovieList extends React.Component {
@@ -23,7 +15,7 @@ class MovieList extends React.Component {
   showOrHide(filter) {
     let x = true;
     let search = new RegExp(filter, "i");
-    if (this.state.movie.name.search(search) === -1) {
+    if (this.state.movie.PartitionKey.search(search) === -1) {
       x = false;
       return x;
     } else {
@@ -64,21 +56,12 @@ class MovieList extends React.Component {
     } else {
       imageUrl = "http://via.placeholder.com/900x1350";
     }
-
     return (
       <Col md="3" className={display}>
         <div>
-          <Button
-            onClick={this.toggle}
-            className="modalButton movieImageContainer"
-          >
-            <img
-              className="movieImageThumbnail"
-              src={imageUrl}
-              alt={this.state.movie.name}
-            />
+          <Button onClick={this.toggle} className="modalButton movieImageContainer">
+            <img className="movieImageThumbnail" src={imageUrl} alt={this.state.movie.PartitionKey} />
           </Button>
-
           <Modal
             isOpen={this.state.modal}
             toggle={this.toggle}
@@ -88,22 +71,14 @@ class MovieList extends React.Component {
             contentClassName="contentModal"
             size="lg"
           >
-            <ModalHeader toggle={this.toggle}>
-              {this.state.movie.name}
-            </ModalHeader>
+            <ModalHeader toggle={this.toggle}>{this.state.movie.PartitionKey}</ModalHeader>
             <ModalBody>
               <Row className="text-white my-3">
                 <Col sm="2">
-                  <img
-                    className="movieThumbnail"
-                    src={imageUrl}
-                    alt={this.state.movie.name}
-                  />
+                  <img className="movieThumbnail" src={imageUrl} alt={this.state.movie.PartitionKey} />
                 </Col>
                 <Col sm="10">
-                  <h6 className="my-2">
-                    Duration: {this.state.movie.duration}
-                  </h6>
+                  <h6 className="my-2">Duration: {this.state.movie.duration}</h6>
                   <h6 className="my-2">Genre: Comedy</h6>
                   <h6 className="my-2">Year: {this.state.movie.releaseYear}</h6>
                   <p className="my-3">{this.state.movie.description}</p>
@@ -115,7 +90,7 @@ class MovieList extends React.Component {
                 color="primary"
                 size="lg"
                 tag={Link}
-                to={"/movies/" + this.state.movie.id}
+                to={{ pathname: "/movies/" + this.state.movie.RowKey, state: this.state }}
               >
                 Play
               </Button>

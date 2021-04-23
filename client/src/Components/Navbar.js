@@ -1,17 +1,5 @@
 import React from "react";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from "reactstrap";
 
 class Navigation extends React.Component {
   constructor(props) {
@@ -37,37 +25,16 @@ class Navigation extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="mx-auto" navbar>
               <NavItem className="mx-3">
-                <NavLink href="/movies/">Movies</NavLink>
+                <NavLink href="/movies">Movies</NavLink>
               </NavItem>
               <NavItem className="mx-3">
-                <NavLink href="/shows/">TV Shows</NavLink>
+                <NavLink href="/shows">TV Shows</NavLink>
               </NavItem>
             </Nav>
             <Nav className="ml-auto" navbar>
-              <UncontrolledDropdown nav inNavbar className="mx-3">
-                <DropdownToggle nav caret>
-                  Options
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem
-                    tag="a"
-                    className="text-dark"
-                    style={styles.link}
-                    href="/admin/movies"
-                  >
-                    Movies Admin
-                  </DropdownItem>
-                  <DropdownItem
-                    tag="a"
-                    className="text-dark"
-                    style={styles.link}
-                    href="/admin/shows"
-                  >
-                    TV Shows Admin
-                  </DropdownItem>
-                  <DropdownItem>Logout</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
+              <NavItem className="ml-auto">
+                <NavLink href="/logout">Sign Out</NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
@@ -77,10 +44,3 @@ class Navigation extends React.Component {
 }
 
 export default Navigation;
-
-const styles = {
-  link: {
-    color: "blue",
-    textDecoration: "none",
-  },
-};
