@@ -8,11 +8,15 @@ const { tableService, azure, filterResults } = require("../helpers");
 const azureTS = require("azure-table-storage-async");
 
 module.exports = async (context, req) => {
-  const query = new azure.TableQuery();
+  const id = context.bindingData.id;
+  const episodesQuery = new azure.TableQuery().where("ShowId eq ?", id.toString());
+  const showQuery = new azure.TableQuery().where("RowKey eq ?", id.toString());
   try {
-    const movies = await azureTS.queryCustomAsync(tableService, "movies", query);
+    const episodes = await azureTS.queryCustomAsync(tableService, "episodes", episodesQuery);
+    const show = await azureTS.queryCustomAsync(tableService, "shows", showQuery);
     context.res.status(200).json({
-      movies: filterResults(movies),
+      show: filterResults(show),
+      episodes: filterResults(episodes),
     });
   } catch (err) {
     context.res.status(500).json({ err });

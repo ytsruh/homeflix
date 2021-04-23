@@ -1,13 +1,14 @@
 {
   "name": "homeflix",
   "version": "3.0.0",
-  "description": "The Homeflix API",
+  "description": "The Homeflix Serverless API",
   "author": "Chris Hurst",
   "scripts": {
     "start": "func start"
   },
   "dependencies": {
     "azure-storage": "^2.10.3",
+    "azure-table-storage-async": "^1.3.0",
     "convert-excel-to-json": "^1.7.0",
     "cors": "^2.8.5",
     "dotenv": "^6.0.0",

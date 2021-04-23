@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["get"],
-      "route": "movies"
+      "route": "shows/{id}"
     },
     {
       "type": "http",

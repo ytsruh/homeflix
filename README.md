@@ -15,8 +15,8 @@ In function.json > bindings > authLevel. This must be set to 'anonymous' or endp
 ### 3.0.0
 
 - Switch from Azure SQL to Azure Table Storage
-- Removed Admin section from web app
 - Switch from ExpressJS web app to Serverless Functions
+- Removed Admin section from web app
 
 ### 2.1.0
 
