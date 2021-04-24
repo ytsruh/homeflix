@@ -2,7 +2,6 @@ import React from "react";
 //Components
 import Dashboard from "./Dashboard";
 import Navigation from "./Navbar";
-import Loading from "./LoadingSpinner";
 //Movie Components
 import Movies from "./Movies/Movies";
 import MoviePlayer from "./Movies/MoviePlayer";
@@ -16,12 +15,16 @@ class ProtectedRoutes extends React.Component {
   constructor() {
     super();
     this.state = {
-      isLoggedIn: true,
+      token: JSON.parse(sessionStorage.getItem("token")),
     };
   }
 
   render() {
-    if (this.state.isLoggedIn) {
+    if (!this.state.token) {
+      return <Redirect to="/login" />;
+    }
+    const now = Math.floor(Date.now() / 1000);
+    if (now < this.state.token.expires) {
       return (
         <div>
           <Navigation />
@@ -35,10 +38,8 @@ class ProtectedRoutes extends React.Component {
           </Switch>
         </div>
       );
-    } else if (!this.state.isLoggedIn) {
-      return <Redirect to="/login" />;
     } else {
-      return <Loading />;
+      return <Redirect to="/login" />;
     }
   }
 }

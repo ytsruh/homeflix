@@ -1,12 +1,13 @@
 import React from "react";
 import { Row, Col, Button, FormGroup, Input, Label, Form } from "reactstrap";
-import Auth from "../Auth.js";
-const auth = new Auth();
+import { Redirect } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false
+      redirect: false,
+      loading: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,43 +19,77 @@ class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    auth.login(this.state.email, this.state.password, response => {
-      console.log(response);
-    });
+    this.setState({ loading: true });
+    fetch(`${process.env.REACT_APP_APIURL}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password,
+      }), // body data type must match "Content-Type" header
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log("Looks like there was a problem. Status Code: " + response.status);
+          return;
+        } else {
+          return response.json();
+        }
+      })
+      .then((json) => {
+        //Set token
+        sessionStorage.setItem("token", JSON.stringify(json));
+        //Set redirect
+        this.setState({ redirect: true });
+      })
+      .catch((err) => {
+        console.log("Fetch Error :-S", err);
+        this.setState({ loading: false });
+      });
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
+    if (this.state.loading) {
+      return <LoadingSpinner />;
+    }
     return (
-      <div class="container-fluid">
+      <div className="container-fluid">
         <Row>
-          <Col md={{ size: 6, offset: 3 }} className="my-5">
+          <Col lg={{ size: 6, offset: 3 }} className="mt-5">
             <Form className="text-white" onSubmit={this.handleSubmit}>
               <FormGroup row>
-                <Label sm={2}>Email</Label>
-                <Col sm={10}>
+                <Label lg={2}>Username</Label>
+                <Col lg={10}>
                   <Input
                     required
-                    type="email"
-                    name="email"
-                    placeholder="Email Address"
+                    type="username"
+                    name="username"
+                    className="bg-dark border border-primary text-white"
+                    placeholder="Username"
                     onChange={this.handleChange}
                   />
                 </Col>
               </FormGroup>
               <FormGroup row>
-                <Label sm={2}>Password</Label>
-                <Col sm={10}>
+                <Label lg={2}>Password</Label>
+                <Col lg={10}>
                   <Input
                     required
                     type="password"
                     name="password"
+                    className="bg-dark border border-primary text-white"
                     placeholder="Password"
                     onChange={this.handleChange}
                   />
                 </Col>
               </FormGroup>
               <FormGroup check row>
-                <Col md="12">
+                <Col>
                   <Button color="primary" size="lg" block>
                     Submit
                   </Button>
