@@ -1,5 +1,7 @@
+# General
 node_modules
 .serverless
 .vscode
 .DS_STORE
 .deployment
+.env

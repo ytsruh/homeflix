@@ -1,35 +1,15 @@
 {
-  "name": "homeflix-api-server",
-  "version": "2.1.0",
-  "description": "The Homeflix API",
-  "scripts": {
-    "start": "node app.js",
-    "nodemon": "nodemon app.js",
-    "migrate": "npx sequelize db:migrate",
-    "migrate-undo": "npx sequelize db:migrate:undo",
-    "migrate-prod": "npx sequelize db:migrate --env production",
-    "migrate-undo-prod": "npx sequelize db:migrate:undo --env production",
-    "seed": "npx sequelize db:seed:all",
-    "seed-undo": "npx sequelize db:seed:undo",
-    "seed-prod": "npx sequelize db:seed:all --env production",
-    "seed-undo-prod": "npx sequelize db:seed:undo --env production"
-  },
+  "name": "homeflix",
+  "version": "3.0.0",
+  "description": "The Homeflix Serverless API",
   "author": "Chris Hurst",
-  "dependencies": {
-    "aws-sdk": "^2.259.1",
-    "convert-excel-to-json": "^1.7.0",
-    "cors": "^2.8.5",
-    "dotenv": "^6.0.0",
-    "express": "^4.16.3",
-    "fs": "0.0.1-security",
-    "multer": "^1.3.0",
-    "multer-s3": "^2.7.0",
-    "mysql2": "^1.6.5",
-    "sequelize": "^5.3.5",
-    "sequelize-cli": "^5.4.0",
-    "tedious": "^9.1.0"
+  "scripts": {
+    "start": "func start"
   },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
+  "dependencies": {
+    "azure-storage": "^2.10.3",
+    "azure-table-storage-async": "^1.3.0",
+    "dotenv": "^6.0.0",
+    "jsonwebtoken": "^8.5.1"
   }
 }

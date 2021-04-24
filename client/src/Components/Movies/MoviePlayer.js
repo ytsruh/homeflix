@@ -11,51 +11,25 @@ import {
   VolumeMenuButton,
 } from "video-react";
 import { Button } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "video-react/dist/video-react.css";
 
 class MoviePlayer extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
-    this.state = {};
-  }
-
-  componentWillMount() {
-    const url = `${process.env.REACT_APP_APIURL}/api/movies/${this.props.match.params.id}`;
-    //Get Movie data
-    fetch(url)
-      .then((response) => {
-        if (response.status !== 200) {
-          console.log(
-            "Looks like there was a problem. Status Code: " + response.status
-          );
-          return;
-        } else {
-          return response.json();
-        }
-      })
-      .then((json) => {
-        this.setState({
-          movie: json.data,
-          url: `https://homeflix-media.azureedge.net/movies/${json.data.fileName}`,
-        });
-      })
-      .catch((err) => {
-        console.log("Fetch Error :-S", err);
-      });
+    this.state = {
+      movie: props.location.state.movie,
+      url: `https://homeflix-media.azureedge.net/movies/${props.location.state.movie.fileName}`,
+    };
   }
 
   render() {
+    if (!this.state.movie) {
+      return <Redirect to="/movies" />;
+    }
     return (
       <div>
-        <Button
-          outline
-          className="backButton"
-          color="primary"
-          size="lg"
-          tag={Link}
-          to="/movies/"
-        >
+        <Button outline className="backButton" color="primary" size="lg" tag={Link} to="/movies/">
           {"< "}Back
         </Button>
         <Player src={this.state.url} aspectRatio="16:9" fluid={true}>

@@ -15,15 +15,9 @@ class ShowList extends React.Component {
     }
     return (
       <Col md="4" className="my-3 showImageContainer">
-        <a href={"./" + this.state.show.id} className="showLink">
-          <p className="text-white text-center showTitle">
-            {this.state.show.name}
-          </p>
-          <img
-            src={imageUrl}
-            alt={this.state.show.name}
-            className="showImageThumbnail"
-          />
+        <a href={"./shows/" + this.state.show.RowKey} className="showLink">
+          <p className="text-white text-center showTitle">{this.state.show.PartitionKey}</p>
+          <img src={imageUrl} alt={this.state.show.PartitionKey} className="showImageThumbnail" />
         </a>
       </Col>
     );

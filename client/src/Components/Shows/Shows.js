@@ -7,29 +7,27 @@ class Shows extends React.Component {
   constructor() {
     super();
     this.state = {
-      loading: true
+      loading: true,
     };
   }
 
   componentWillMount() {
-    fetch(`${process.env.REACT_APP_APIURL}/api/shows/`)
-      .then(response => {
+    fetch(`${process.env.REACT_APP_APIURL}/shows`)
+      .then((response) => {
         if (response.status !== 200) {
-          console.log(
-            "Looks like there was a problem. Status Code: " + response.status
-          );
+          console.log("Looks like there was a problem. Status Code: " + response.status);
           return;
         } else {
           return response.json();
         }
       })
-      .then(json => {
+      .then((json) => {
         this.setState({
-          shows: json.data,
-          loading: false
+          shows: json.shows,
+          loading: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Fetch Error :-S", err);
       });
   }
@@ -39,8 +37,8 @@ class Shows extends React.Component {
       return <Loading />;
     } else {
       if (this.state.shows) {
-        var shows = this.state.shows.map(show => {
-          return <ShowList key={show.id} data={show} />;
+        var shows = this.state.shows.map((show) => {
+          return <ShowList key={show.RowKey} data={show} />;
         });
       }
       return (
