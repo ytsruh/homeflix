@@ -1,6 +1,6 @@
 {
   "name": "homeflix",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "The Homeflix Serverless API",
   "author": "Chris Hurst",
   "scripts": {
