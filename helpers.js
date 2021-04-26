@@ -1,8 +1,6 @@
+require("dotenv").config();
 const azure = require("azure-storage");
-const tableSvc = azure.createTableService(
-  "homeflix",
-  "qNzl7mniYqq7w4GRX3rz4t/CxER2Y4i1x3E/qhJPkOe5drSQoM8rAqCg+pyH+3JGXsLKjd7ro/BNn/wvCkcFeA=="
-);
+const tableSvc = azure.createTableService("homeflix", process.env.STORAGE_KEY);
 
 const filterResults = (array) => {
   let newArray = [];
